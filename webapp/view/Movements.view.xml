@@ -1,0 +1,132 @@
+<mvc:View controllerName="erpadvancedmathieudekeyser.controller.Movements"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <VBox class="sapUiSmallMargin">
+        <HBox class="sapUiSmallMarginBottom">
+            <VBox>
+                <Label text="Filteren op:"/>
+                <HBox>
+                    <Label text="Datum" class="sapUiSmallMarginEnd"/>
+                    <DatePicker id="datePickerFilter"/>
+                </HBox>
+                <HBox>
+                    <Label text="Verplaatsing" class="sapUiSmallMarginEnd"/>
+                    <Select id="typeSelect">
+                        <items>
+                            <core:Item key="all" text="Alle Types"/>
+                            <core:Item key="IN" text="IN"/>
+                            <core:Item key="OUT" text="OUT"/>
+                            <core:Item key="I/O" text="I/O"/>
+                        </items>
+                    </Select>
+                </HBox>
+                <Button text="Zoek" type="Emphasized" press="applyFilters" class="sapUiSmallMarginTop"/>
+            </VBox>
+        </HBox>
+        <HBox>
+            <VBox layoutData="sap.m.FlexItemData">
+                <Panel headerText="Transportbewegingen:" class="sapUiSmallMarginEnd" width="400px">
+                    <List id="entryList" mode="SingleSelectMaster" items="{mockData>/MovementSet}" selectionChange="onSelectionChange">
+                        <StandardListItem title="{mockData>Id}" description="{mockData>Type} - {mockData>MovDate}" info="{mockData>Location} - {mockData>Partner}" />
+                    </List>
+                </Panel>
+                <Button text="Nieuwe Verplaatsing Toevoegen" icon="sap-icon://add" press="onOpenCreateDialog" class="sapUiSmallMarginTop"/>
+            </VBox>
+            <VBox layoutData="sap.m.FlexItemData">
+                <Panel headerText="Details:" width="600px">
+                    <VBox>
+                        <Text id="noDataText" text="No Movement Selected" visible="true"/>
+                        <VBox id="detailContent" visible="false">
+                            <VBox class="sapUiSmallMarginBottom">
+                                <Text id="detailId" text="ID: {mockData>Id}"/>
+                                <Text id="detailType" text="Type: {mockData>Type}"/>
+                                <Text id="detailMovDate" text="Datum: {path: 'mockData>MovDate', type: 'sap.ui.model.type.Date', formatOptions: {style: 'medium'}}"/>
+                                <Text id="detailLocation" text="Locatie: {mockData>Location}"/>
+                                <Text id="detailPartner" text="Partner: {mockData>Partner}"/>
+                                <Text id="detailFinished" text="Status: {= ${mockData>Finished} ? 'Uitgevoerd' : 'Onuitgevoerd'}"/>
+                                <Text id="detailChanges" text="Gewijzigd door: {mockData>ChgUser} op {path: 'mockData>ChgDate', type: 'sap.ui.model.type.Date', formatOptions: {style: 'medium'}}"/>
+                            </VBox>
+                            <HBox class="sapUiSmallMarginBottom">
+                                <Button text="Bewerken" press="onEditEntry"/>
+                                <Button text="Markeren als Onuitgevoerd" press="onMarkUnfinished"/>
+                            </HBox>
+                            <Panel headerText="Materialen:">
+                                <List id="itemsListDetail" items="{mockData>/ItemSet}">
+                                    <StandardListItem title="{mockData>Matnr}" info="{mockData>Umziz} {mockData>Meins}"/>
+                                </List>
+                                <HBox>
+                                    <Button text="Materiaal Bewerken" press="onEditMaterial"/>
+                                    <Button text="Materiaal Toevoegen" press="onAddMaterial"/>
+                                </HBox>
+                            </Panel>
+                        </VBox>
+                    </VBox>
+                </Panel>
+            </VBox>
+        </HBox>
+    </VBox>
+
+    <Dialog id="createMovementDialog" title="Create New Movement">
+        <content>
+            <VBox class="sapUiContentPadding">
+                <Label text="Location"/>
+                <Select id="locationSelect">
+                    <items>
+                        <core:Item key="NOORD" text="NOORD"/>
+                        <core:Item key="LICHT" text="LICHT"/>
+                        <core:Item key="ELLER" text="ELLER"/>
+                        <core:Item key="VIADU" text="VIADU"/>
+                    </items>
+                </Select>
+
+                <Label text="Type"/>
+                <Select id="typeSelectDialog">
+                    <items>
+                        <core:Item key="IN" text="IN"/>
+                        <core:Item key="OUT" text="OUT"/>
+                        <core:Item key="I/O" text="I/O"/>
+                    </items>
+                </Select>
+
+                <Label text="Date"/>
+                <DatePicker id="datePickerDialog" width="100%" valueFormat="yyyy-MM-dd" displayFormat="long"/>
+
+                <Label text="Partner"/>
+                <Input id="partnerInput" width="100%"/>
+
+                <Label text="Items"/>
+                <List id="itemsListDialog" items="{itemsModel>/items}">
+                    <StandardListItem title="{itemsModel>materialNumber}" description="{itemsModel>quantity} {itemsModel>unit}"/>
+                </List>
+
+                <Button text="Add Item" press="onOpenAddItemDialog"/>
+            </VBox>
+        </content>
+        <beginButton>
+            <Button text="Cancel" press="onCloseCreateDialog"/>
+        </beginButton>
+        <endButton>
+            <Button text="Save Movement" press="onSaveNewMovement"/>
+        </endButton>
+    </Dialog>
+
+    <Dialog id="addItemDialog" title="Add Item">
+        <content>
+            <VBox class="sapUiContentPadding">
+                <Label text="Material Number"/>
+                <Input id="materialNumberInput" width="100%"/>
+                <Label text="Quantity"/>
+                <Input id="quantityInput" width="100%"/>
+                <Label text="Unit of Measurement"/>
+                <Input id="unitInput" width="100%"/>
+            </VBox>
+        </content>
+        <beginButton>
+            <Button text="Cancel" press="onCloseAddItemDialog"/>
+        </beginButton>
+        <endButton>
+            <Button text="Add" press="onAddItem"/>
+        </endButton>
+    </Dialog>
+</mvc:View>

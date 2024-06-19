@@ -1,0 +1,25 @@
+{
+    "MovementSet": [
+      {
+        "Id": "1",
+        "Type": "IN",
+        "MovDate": "2023-06-19T00:00:00",
+        "ChgDate": "2023-06-19T00:00:00",
+        "ChgUser": "TEST_USER",
+        "Partner": "PARTNER_001",
+        "Location": "NOORD",
+        "Finished": "X"
+      },
+      {
+        "Id": "2",
+        "Type": "OUT",
+        "MovDate": "2023-06-20T00:00:00",
+        "ChgDate": "2023-06-20T00:00:00",
+        "ChgUser": "TEST_USER2",
+        "Partner": "PARTNER_002",
+        "Location": "LICHT",
+        "Finished": ""
+      }
+    ]
+  }
+  

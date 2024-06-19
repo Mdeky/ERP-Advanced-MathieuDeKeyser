@@ -1,0 +1,29 @@
+/* Enter your custom styles here */
+.filterBox {
+    width: 40%;
+}
+
+.searchButton {
+    margin-left: 10px;
+}
+
+.movementList {
+    margin-top: 20px;
+}
+
+.addButton {
+    margin-top: 20px;
+}
+
+.TitleBox, .BodyBox, .ItemsBox {
+    margin-top: 20px;
+}
+
+.title {
+    font-weight: bold;
+}
+
+.noDataText {
+    text-align: center;
+    margin-top: 20px;
+}
